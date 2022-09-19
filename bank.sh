@@ -17,7 +17,7 @@ read -p "Enter your last name: " lastname
 
 read -p "Enter your email address: " email
 #verify email
-regex=[[:alnum:]]+@[[:alnum:]]+\.[[:alpha:]{2,4}]
+regex=[[:alnum:]]+@[[:alnum:]]+\.[[:alpha:]]{2,4}
 until [[ $email =~ $regex ]]
 do
 read -p "Enter a valid email address: " email
@@ -25,25 +25,25 @@ done
 ###
 
 read -p "Enter your BVN: " bvn
-#verify BVN
-while [[ ${#bvn} -ne 11 ]]
+bvnregex=[[:digit:]]{11}
+#verify BVN contains only digits and is 11 digits long
+until [[ $bvn =~ $bvnregex ]] && [[ ${#bvn} == 11 ]]
 do
 
-if [[ ${#bvn} -lt 11 ]]
+if [[ $bvn =~ [^[:digit:]] ]]
+then
+echo "BVN should contain only numbers"
+read -p "Please enter your correct BVN: " bvn
+
+elif [[ ${#bvn} -lt 11 ]]
 then
 echo "BVN less than 11 digits"
 read -p "Please enter your correct BVN: " bvn
-fi
 
-if [[ ${#bvn} -gt 11 ]]
+elif [[ ${#bvn} -gt 11 ]]
 then
 echo "BVN greater than 11 digits"
 read -p "Please enter your correct BVN: " bvn
-fi
-
-if [[ ${#bvn} == 11 ]]
-then
-echo "Your BVN will be verified."
 fi
 done
 ###
